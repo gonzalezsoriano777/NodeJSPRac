@@ -78,6 +78,7 @@ To close the server .. use server.on('close', function(requests, responce){})
 */
 
 // Streams Tutorial
+
 /*
 
 // Streaming Responce
@@ -156,3 +157,97 @@ var newFile = fs.createWriteStream("readme_copy.md");
 }).listen(8080);
 
 */
+
+
+// Modules Tutorial
+
+/*
+
+// Creating a Module
+
+// Custom_hello.js
+var hello = function() {
+    console.log("hello");
+}
+module.exports = hello;
+
+// custom_goodbye.js
+exports.goodbye = function() {
+    console.log("bye!");
+}
+
+// app.js
+var hello = require('./custom_hello');
+var gb = require('./custom_goodbye');
+
+hello();
+gb.goodbye();
+
+var makeRequests = require('./make_requests');
+
+makeRequests("Here's looking at you, kid");
+makeRequests("Hello , this is a dog");
+
+// To make 2 out of 3 modules acceptable you would use exports."var name" = "var name"
+
+// Making HTTP Requests
+var http = require('http');
+
+var message = "Here's looking at you, kid.";
+
+var options = {
+host: 'localhost', port: 8080, path: '/', method: 'POST'
+    }
+
+var request = http.request(options, function(responce){
+    responce.on('data', function(data){
+        console.log(data); // logs responce body
+    });
+});
+requests.write(message); // begins requests
+
+// Make Requests
+var http = require('http');
+
+var makeRequests = function(message) {
+    ...
+}
+
+module.exports = makeRequests;
+
+// Requests Search 
+
+var make_Requests = require('./make_requests')// look in same directory
+var make_Requests = require('../make_requests')// look in parent directory
+var make_Requests = require('/Users/eric/nodes/make_requests')
+
+
+var make_Requests = require('make_requests')
+
+// NPM, is the package manager for node. 
+//Comes with Node. 
+//Module Repository.
+// Dependency Management
+// Easily publish modules
+
+// To install the NPM Module all you have to do is type
+$ npm install request
+
+// Always define the dependencies
+// Example
+{
+ dependencies: {
+     connect: "1.8.7"
+     the 1 is the major version
+     the 8 is the minor version
+     and the 7 is the patch version
+ }   
+}
+
+*/
+
+
+
+
+
+
