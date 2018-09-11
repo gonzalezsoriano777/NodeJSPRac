@@ -2,12 +2,38 @@
 <html>
 <head>
  <title>Node Practice</title>   
+ <script src="/socket.io/socket.io.js"></script>   
+    <script>
+        
+        var socket = io.connect('http://localhost:8080');
+            socket.on('messages', function (data){
+                alert(data.hello);
+            });             // Listen for 'messages' events
+    </script>
     
     
+    <script>
+        ...
+        
+        socket.on('message', function(data){
+            insertMessage(data);
+        })          // inserts message into the chat
+        
+    </script>
     
-    
-    
-    
+    <script>
+        
+        var server = io.connect('httpL//localhost:8080');
+        server.on('connect', function(data){
+            $('#status').html('Connected to chattr');
+            nickname = prompt("What is your nickname?");
+            
+            
+            server.emit('join', nickname); // notify the server of the user nickname
+        });
+        
+        
+    </script>
     
     
     

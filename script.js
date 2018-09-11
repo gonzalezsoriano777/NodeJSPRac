@@ -258,6 +258,9 @@ $ npm install request
 
 */
 
+
+/*
+
 var express = require('express'); // installs the module and adds to package.json
 var app = express();
 
@@ -296,18 +299,64 @@ app.get('/tweets/:username', function(req, responce){
         responce.locals = {tweets, name: username};
         responce.render('tweets.ejs');
     })
-})
+});
+
+*/
+
+// Socket.io Tutorial
+
+/*
 
 
 
+*/
+// Websockets allows us to create connection with clients in the server
 
+// Building a Chat browser... 
 
+// to install the socket.io use
+npm install --save socket.io
 
+// app.js
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
+io.on('connection', function(client){
+    console.log('Client connected...');
+    
+    
+    // emit the 'messages' event on the client
+    client.emit('message', {hello: 'world' });
+});
 
+// Sending messages to server
 
-/**/
+io.on('connection', function(client){
+    client.on('message', function(data){
+        console.log(data);
+    }),
+});
 
+// Broadcasting Messages
 
+io.on('connection', function(client){
+    client.on('message', function(data) {
+        client.broadcast.emit("messages", data);
+    });
+});     // broadcast message to all other clients connected
 
-
+// Now its time to use a proper name for the client.. using the 'join' method in Node
+io.on('connection', function(client){
+    client.on('join', function(name){
+        client.nickname = name; // set the nickname associated with this client
+    });
+    
+    client.on('messages', function(data){
+        var nickname = client.nickname; // get the nickname of this client before broadcasting message
+        
+        client.broadcast.emit("message", nickname + ": " + message);
+                            // send the same message back to our client
+    })
+});
