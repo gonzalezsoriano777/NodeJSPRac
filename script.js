@@ -308,10 +308,6 @@ app.get('/tweets/:username', function(req, responce){
 /*
 
 
-
-*/
-// Websockets allows us to create connection with clients in the server
-
 // Building a Chat browser... 
 
 // to install the socket.io use
@@ -360,3 +356,145 @@ io.on('connection', function(client){
                             // send the same message back to our client
     })
 });
+
+*/
+// Websockets allows us to create connection with clients in the server
+
+
+// Persisting Data
+
+/*
+// Storing Messages 
+var messages = "";
+
+var storeMessage = function(name, data){
+    message.push({name: name, data: data}); // add message to end of array
+    if(message.length > 10) {
+        messages.shift(); // if more than 10 messages long, remove the first one
+    }
+    
+    
+   io.sockets.on('connection', function(client){
+       client.on('join', function(name){
+       client.on("message", function(message){
+           client.get("nickname", function(error, name){
+               client.broadcast.emit("message", name + ": " + message);
+               
+           });
+       });
+   }); 
+   });
+   
+   // Persisting Stores
+   /*
+   
+   Databases such as 
+   MongoDB
+   CouchDB
+   PostgreSQL
+   Memcached
+   Riak
+                All Considered Non-blocking drivers
+                
+    // Redis
+var redis = require('redis');
+var client = redis.createClient();
+    
+    client.set("message1", "hello, yes this is dog");
+    client.set("message2", "hello, no this is spider");
+    
+    
+}
+
+client.get("message1", function(err, reply){
+    console.log(reply);
+});
+
+// Redis Lists: Pushing
+
+var message = "Hello, this is dog";
+client.lpush("message", message, function(err, reply){
+    console.log(reply)
+});             // replies with list length
+
+// Using the LPUSH and LTRIM Method
+var message = "Hello, this is dog";
+client.lpush("message", message, function(err, reply){
+    client.ltrim("messages", 0, 1);
+});
+
+// Retrieving from list
+client.lrange("message", 0, -1, function(err, messages){
+    console.log(messages);
+})
+
+// Converting StoreMessage
+
+var redisClient = redisClient = redis.createClient();
+
+var storeMessage = function(name, data){
+    var message = JSON.stringify({name: name, data: data});
+                    // need to turn object into string to store in redis
+                    
+                    
+                    redisClient.lpush("message", message, function(err, responce){
+                        redisClient.ltrim("messages", 0, 9);
+                    });
+}
+
+// Output From list
+
+client.on('join', function(name){
+redisClient.lrange("message", 0, -1, function(err, message){
+  message = message.reverse(); // reverse so they are emitted in correct order  
+    messages.forEach(function(message){
+        message = JSON.parse(message); // parse into JSON object
+        client.emit("message", message.name + ": " + message.data);
+    });
+});
+});
+
+// Adding Chatters 
+client.on('join', function(name){
+    // notify pther clients a chatter has joined
+    client.broadcast.emit("add chatter", name);
+    redisClients.sadd("chatters", name);
+}); // add name to chatter set
+
+// What if theres already users in the chat room?
+// Using 'Adding Chatters (CONT)'
+
+client.on('join', function(name){
+    client.broadcast.emit("add chatter", name);
+    redisClient.smembers('names', function(err, names){
+    names.forEach(function(name){
+        client.emit('add chatter', name);
+    });
+    
+    //emit all the currently logged in chatters 
+    //to the newly connected client    
+        
+        
+        
+        redisClient.sadd("chatters", name); // sadd is a set of unique data in which shows whos in the chatbox (used for the browser example)
+    });
+})
+
+// How to remove chatter
+
+client.on('disconnect', function(name){
+    client.get('nickname', function(err, name){
+        client.broadcast.emit("remove chatter", name);
+        
+        redisClient.srem("chatters", name);
+    });
+
+});            
+  
+   */
+   
+    
+
+
+
+
