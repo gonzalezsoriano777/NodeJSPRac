@@ -246,7 +246,67 @@ $ npm install request
 
 */
 
+// Express Tutorial
 
+/*
+
+-Used for Easy route URLs to callbacks
+-Middleware (from Connect)
+-Enviroment based configuration
+-Redirection helpers
+-File Uploads
+
+*/
+
+var express = require('express'); // installs the module and adds to package.json
+var app = express();
+
+app.get('/', function(request, responce){
+    responce.sendFile(__dirname + "/index.html");
+});
+
+app.lisent(8080);
+
+// Express Routes
+
+var requests = require('request');
+var url = require('url');
+
+app.get('/tweets/:username', function(req, responce){
+    var username = req.params.username;
+    
+    options = {
+        protocol: "http:",
+        host: 'api.twitter.com',
+        pathname: '/1/statuses/user_timeline.json', 
+        query: { screen_name: username, count: 10}
+    }
+    var twitterUrl = url.format(options);
+    request(twitterUrl).pipe(responce);
+});
+
+// To organize ExpressRoutes, you can download another npm
+// Called npm install prettyjson
+
+// Express Templates
+app.get('/tweets/:username', function(req, responce){
+    ...
+    request(url, function(err, res, body){
+        var tweets = JSON.parse(body);
+        responce.locals = {tweets, name: username};
+        responce.render('tweets.ejs');
+    })
+})
+
+
+
+
+
+
+
+
+
+/**/
 
 
 
