@@ -77,3 +77,82 @@ To close the server .. use server.on('close', function(requests, responce){})
 
 */
 
+// Streams Tutorial
+/*
+
+// Streaming Responce
+                
+                //Readable Stream  //Writeable Stream
+http.createServer(function(request, responce){
+    responce.writeHead(200);
+    responce.write("<p>Dog is running.</p>");
+    setTimeOut(function(){
+        responce.write("<p>Dog is done.</p>");
+        responce.end();
+    }, 5000);
+    
+}).listen(8080);
+// Browser recieves "Dog is running", once reading it, it closes it.
+
+
+// How to Read From the Requests
+// Readable Stream "EventEmitter" emits 'readable' and 'end'
+
+http.createServer(function(requests, responce){
+    responce.writeHead(200);
+    request.on('readable', function(){
+        var chunk = null;
+        while (null !== (chunk = requests.read())) {
+            responce.write(chunk);
+        }
+    });
+    request.on('end', function(){
+        responce.end();
+    });
+}).listen(8080) 
+
+// Reading and Writing a File
+
+var fs = require('fs');
+
+var file = fs.createReadStream("readme.md");
+var newFile = fs.createWriteStream("readme_copy.md");
+
+file.pipe(newFile);
+
+// Using this, we can also upload files
+
+var http = require("http");
+http.createServer(function(request, responce){
+    var newFile = fs.createWriteStream("readme_copy.md");
+    
+    request.on('end', function(){
+        responce.end('uploaded!');
+        });
+    }).listen(8080);
+// using the curl method which is overall a tool used 
+//"to transfer data from or to a server, using the following protocals, http, https, FILE" etc.
+
+$ curl --upload-file readme.md "http.//localhost:8080"
+
+// File Uploading Progress
+$ curl --upload-file readme.md "http.//localhost:8080"
+
+http.createServer(function(request, responce){
+var newFile = fs.createWriteStream("readme_copy.md");
+    // var fileBytes = requests.headers['content-length'];
+    // var uploadedBytes = 0;
+    
+    requests.on('readable', function(){
+        var chunk = null;
+        while(null !== (chunk = requests.read())){
+            uploadedBytes += ch
+        }
+    });
+    requests.pipe(newFile); .. Takes care of the actual Upload
+    
+    ...
+    
+}).listen(8080);
+
+*/
